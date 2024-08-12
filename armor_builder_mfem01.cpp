@@ -48,8 +48,8 @@
 /*_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/*/
 //
 //<Operation environment>
-//OS: Utunbu 18.04
-//g++: g++-7.5.0
+//OS: Utunbu 20.04
+//g++: g++-9.4.0
 //
 //<Installing MFEM with slight modification>
 //(i) Get mfem-3.3.2.tgz from https://mfem.org/download/
@@ -144,43 +144,43 @@
 //<Execution of this program file>
 //
 //Fig.1e:
-//horntype="base2";td="50.0";tf="100";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="base2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.2g
-//horntype="curve1";td="50.0";tf="100";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="curve1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.2h
-//horntype="curve9";td="50.0";tf="100";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="curve2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.2i
-//horntype="twist6";td="50.0";tf="100";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="twist6";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.3h
-//horntype="modular5";td="50.0";tf="100";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="modular5";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.3i
-//horntype="modular3";td="50.0";tf="100";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="modular3";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.3j
-//horntype="modular1";td="50.0";tf="100";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="modular1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.4g
-//horntype="kuwa11";td="50.0";tf="100";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="kuwa11";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.4h
-//horntype="kuwa6";td="100.0";tf="150";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="kuwa6";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.4i
-//horntype="kuwa1";td="100.0";tf="150";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="kuwa1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.5g
-//horntype="two_teeth10";td="50.0";tf="100";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="two_teeth2";td="100.0";tf="120";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.5h
-//horntype="teeth6";td="100.0";tf="150";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="teeth3";td="100.0";tf="120";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 //
 //Fig.5i
-//horntype="fins7";td="50.0";tf="100";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
+//horntype="fins2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 /*
 BSD 3-Clause License
@@ -255,6 +255,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 /*_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/*/
 
 #define MY_N_ELEMENTS 80
+
+#define PI 3.141592653589793
+
 const int nnx = MY_N_ELEMENTS;
 const int nny=  MY_N_ELEMENTS;
 
@@ -282,6 +285,19 @@ int flag_output=1;
 int flag_output_png=0;
 int vcount=0;
 
+int flag_water=1;
+
+double t_amp_water=1.0;
+double water_st =0.05;
+double water_ed =2e-3;
+double water = water_st;
+
+const int nvhalf=(nnx+1)*(nny+1);
+int elm_vert[nnx*nny][8];
+double normals[nvhalf][3];
+int mask_bdr[nvhalf];
+
+
 const int nnx_met=MY_N_ELEMENTS;
 const int nny_met=MY_N_ELEMENTS;
 double dx_met=xw/double(nnx_met);
@@ -301,6 +317,8 @@ double horn0[nnx+1][nny+1];
 double metric_grid_xx[(nnx+1)*(nny+1)];
 double metric_grid_xy[(nnx+1)*(nny+1)];
 double metric_grid_yy[(nnx+1)*(nny+1)];
+
+double grows[nnx*nny],grows_grid[(nnx+1)*(nny+1)],growcount[(nnx+1)*(nny+1)];
 
 int outcount=0;
 
@@ -327,23 +345,24 @@ void read_metric(const char *met_file){
 }
 
 void update_metric(void){
-  double wp,wq;
+  double wpm,wqm;
   if(my_time<t_develop){
-    wp=double(my_time/t_develop);
-    wq=1-wp;
+    wpm=sin(0.5*PI*double(my_time/t_develop));
+    wpm=wpm*wpm;
+    wqm=1-wpm;
   }
   else{
-    wp=1.0;
-    wq=0.0;
+    wpm=1.0;
+    wqm=0.0;
   }
   
   for(int j=0;j<nny;j++){      
     for(int i=0;i<nnx;i++){     
       for(int k=0;k<5;k++){
 	
-	metric_xx[j*nny_met+i][k]=wp*metric_xx1[j*nny_met+i][k]+wq*metric_xx0[j*nny_met+i][k];
-	metric_xy[j*nny_met+i][k]=wp*metric_xy1[j*nny_met+i][k]+wq*metric_xy0[j*nny_met+i][k];
-	metric_yy[j*nny_met+i][k]=wp*metric_yy1[j*nny_met+i][k]+wq*metric_yy0[j*nny_met+i][k];
+	metric_xx[j*nny_met+i][k]=wpm*metric_xx1[j*nny_met+i][k]+wqm*metric_xx0[j*nny_met+i][k];
+	metric_xy[j*nny_met+i][k]=wpm*metric_xy1[j*nny_met+i][k]+wqm*metric_xy0[j*nny_met+i][k];
+	metric_yy[j*nny_met+i][k]=wpm*metric_yy1[j*nny_met+i][k]+wqm*metric_yy0[j*nny_met+i][k];
        	
       }
       
@@ -452,6 +471,163 @@ double recarea(double p00[3], double p10[3],double p01[3],double p11[3]){
 }
 
 
+void calc_areas(GridFunction &xxx){
+  Vector bx,by,bz;
+  double a[3],b[3],c[3];
+  double p00[3], p10[3],p01[3],p11[3];
+  double area_sum,area0;
+  int count;
+  xxx.GetNodalValues(bx,1);
+  xxx.GetNodalValues(by,2);
+  xxx.GetNodalValues(bz,3);
+
+  for(int j=0;j<nny;j++){
+    for(int i=0;i<nnx;i++){
+      p00[0]=bx[j*(nny+1)+i];
+      p00[1]=by[j*(nny+1)+i];
+      p00[2]=bz[j*(nny+1)+i];
+
+      p10[0]=bx[j*(nny+1)+i+1];
+      p10[1]=by[j*(nny+1)+i+1];
+      p10[2]=bz[j*(nny+1)+i+1];
+
+      p01[0]=bx[(j+1)*(nny+1)+i];
+      p01[1]=by[(j+1)*(nny+1)+i];
+      p01[2]=bz[(j+1)*(nny+1)+i];
+      
+      p11[0]=bx[(j+1)*(nny+1)+i+1];
+      p11[1]=by[(j+1)*(nny+1)+i+1];
+      p11[2]=bz[(j+1)*(nny+1)+i+1];
+      grows[j*nny+i]=recarea(p00,p10,p01,p11)/(dx_met*dy_met);
+    }
+  }
+
+
+    for(int i=0; i<nvhalf;i++){
+        grows_grid[i]=0.0;
+      growcount[i]=0.0;
+    }
+    
+  for(int j=0;j< nny;j++){
+    for(int i=0;i<nnx;i++){
+      growcount[j*(nny+1)+i]+=1.0;
+      grows_grid[j*(nny+1)+i]+=grows[j*(nny)+i];
+
+
+      growcount[j*(nny+1)+i+1]+=1.0;
+      grows_grid[j*(nny+1)+i+1]+=grows[j*(nny)+i];
+
+
+      growcount[(j+1)*(nny+1)+i]+=1.0;
+      grows_grid[(j+1)*(nny+1)+i]+=grows[j*(nny)+i];
+
+
+      growcount[(j+1)*(nny+1)+i+1]+=1.0;
+      grows_grid[(j+1)*(nny+1)+i+1]+=grows[j*(nny)+i];
+
+      
+      }
+  }
+  
+  for(int j=0;j< nny+1;j++){
+    for(int i=0;i<nnx+1;i++){
+      grows_grid[j*(nny+1)+i]/=(growcount[j*(nny+1)+i]);
+      // cerr<<growcount[j*(nny+1)+i];
+      // cerr<<int(grows_grid[j*(nny+1)+i])<<" ";
+      
+    }
+    //cerr<<endl;
+  }
+  
+  //  for(int i=0;i<(nnx+1)*(nny+1);i++){
+    // grows_grid[i]/=double(growcount[i]);
+      //      cerr<<growcount[i]<<":"<<grows_grid[i]<<" ";
+  //  }
+  
+  
+
+      
+}
+
+
+void water_pressure(int ysize, double buff[], Vector &mm,double buf[]){
+  double p00[3],  p10[3],p01[3], p11[3],area0;
+  double bx[ysize],by[ysize],bz[ysize];
+  // cout<<endl<<ysize<<" ADD!!"<<xsize<<endl;
+
+
+  double grow,growcount,gz;
+
+ 
+  	
+  //cout<<"bx"<<endl;
+  gz=0;
+  for(int i=0;i<ysize;i++){
+    bx[i]=buff[i];
+      by[i]=buff[i+ysize];
+      bz[i]=buff[i+2*ysize];
+      //cout<<bx[i]<<" "<<by[i]<<" "<<bz[i]<<endl;
+      gz+=bz[i];
+    }
+  gz/=double(ysize);
+  
+    for(int i=0;i<ysize*3;i++){
+      buf[i]=0.0;
+    }
+
+    int counti=-1;
+    int countj=0;
+    int countw=0;
+
+    double wtotal=0.0;
+    double mm_total=0.0;
+    double mm_bdr=0.0;
+    for(int i=0;i<nvhalf;i++){
+      counti++;
+      if(counti>=nnx+1){
+	counti=0;
+	countj++;
+      }
+      mask_bdr[i]=0;
+      if((counti==0)||(counti==(nnx))||(countj==0)||(countj==(nny))){
+	countw++;
+	mask_bdr[i]=1;
+	mm_bdr+=mm[i];
+      }
+      //buf[i]=normals[i][0]*water*-1;
+      //buf[i+ysize]=normals[i][1]*water*-1;
+      //buf[i+2*ysize]=normals[i][2]*water*-1;
+      /*
+	buf[i+nvhalf]=normals[i][0]*water*-1;
+	buf[i+ysize+nvhalf]=normals[i][1]*water*-1;
+	buf[i+2*ysize+nvhalf]=normals[i][2]*water*-1;
+      */
+      grow=grows_grid[i];
+      //        grow=grows_grid[i]*dx_met*dy_met*0.2;
+      //cerr<<grow<<" ";
+      buf[i+nvhalf]=normals[i][0]*water*grow*-1;
+      buf[i+ysize+nvhalf]=normals[i][1]*water*grow*-1;
+      buf[i+2*ysize+nvhalf]=normals[i][2]*water*grow*-1;
+      
+     	wtotal+=normals[i][2]*water*grow*mm[i];
+	mm_total+=mm[i];
+ 
+      //cout<<normals[i][0]<<" "<<normals[i][1]<<" "<<normals[i][2]<<endl;
+
+	
+     }
+     
+    wtotal/=mm_total;
+    
+    for(int i=0;i<nvhalf;i++){
+      //buf[i+2*ysize+nvhalf]+=wtotal;
+      if(mask_bdr[i]==1)buf[i+2*ysize+nvhalf]+=wtotal*mm_total/mm_bdr;
+      //if(mask_bdr[i]==1)buf[i+2*ysize+nvhalf]+= gv*double(nvhalf)/double(countw);
+
+      }
+          
+}
+
 double calc_area(GridFunction &xxx,double &area_max){
   Vector bx,by,bz;
   double a[3],b[3],c[3];
@@ -487,6 +663,7 @@ double calc_area(GridFunction &xxx,double &area_max){
   }
   return area_sum;
 }
+
 
 void out_xyz_ene(ofstream &xyz_file, GridFunction &xxx,GridFunction &vvv,GridFunction &www,const char *bufdir){
      
@@ -764,6 +941,7 @@ void ReducedSystemOperator::SetParameters(double dt_, const Vector *v_,
 }
 
 
+
 void ReducedSystemOperator::Mult(const Vector &k, Vector &y) const
 {
 
@@ -775,7 +953,69 @@ void ReducedSystemOperator::Mult(const Vector &k, Vector &y) const
    M->AddMult(k, y);
    S->AddMult(w, y);
 
+if(flag_water==1){
+    const int ysize=x->Size()/3;
+   
+    double *xd;
+    xd=x->GetData();
 
+    double *bufv;
+    bufv=v->GetData();
+    double ones[ysize*3];
+    for(int i=0;i<ysize*3;i++)ones[i]=1.0;
+    Vector onesv=Vector(ones,ysize*3);
+
+    Vector mx(v->Size());
+    Vector mm(v->Size());
+    M->Mult(*x,mx);
+    M->Mult(onesv,mm);
+    double gz=0.0;
+    double gv=0.0;
+    double mm_total=0.0;
+    for(int i=ysize*2;i<ysize*3;i++){
+      gz+=mx[i];
+      mm_total+=mm[i];
+      gv+=bufv[i]*mm[i];
+      //cerr<<int(mm[i]/0.00025 + 1e-8)<<" ";
+    }
+    gz/=mm_total;
+    gv/=mm_total;
+    cerr<<"gz:"<<gz<<" gvz:"<<gv<<" total mass:"<<mm_total<<" water:"<<water<<endl<<endl;
+
+    //c=sum(m*w)/mm_total;
+    //sum(m*(w-c))=0
+    //sum(m*w)-sum(m)*c=0;
+    //c=sum(m*w)/sum(m);
+    
+    double waterv[ysize*3];
+    water_pressure(ysize,xd,mm,waterv);
+
+    const Vector xb=Vector(waterv,ysize*3);
+    M->AddMult(xb, y);
+
+    /*
+   
+    const Vector vb=Vector(bufv,v->Size());
+    
+    Vector mv(v->Size());
+    M->Mult(vb,mv);
+    for(int i=0;i<ysize*3;i++){
+      cerr<<mv[i]<<" ";
+    }
+    */
+    //cerr<<endl<<endl;
+    //for(int i=0;i<ysize*3;i++)ones[i]=1.0;
+    //Vector onesb=Vector(ones,ysize*3);
+    //cerr<<"MASS: "<<M->InnerProduct(onesb,onesb)<<endl<<endl;
+    /*
+    double tmpm=0.0;
+    for(int i=0;i<M->Size();i++){     
+      tmpm+=M->Elem(i,i);
+    }
+    cerr<<"MASS diagonal: "<<tmpm<<endl<<"water:"<<water<<endl;
+    */
+    //}
+ }
 }
 
 Operator &ReducedSystemOperator::GetGradient(const Vector &k) const
@@ -969,7 +1209,7 @@ void InitialVelocity(const Vector &x, Vector &v)
    }
    sumv=sumv/double(nnx*nny);
 
-   v(dim-1)=0.001*((x(0)-rrm-rr)*(x(0)-rrm+rr)*(x(1)-rrm-rr)*(x(1)-rrm+rr)-sumv);
+      v(dim-1)=0.00*((x(0)-rrm-rr)*(x(0)-rrm+rr)*(x(1)-rrm-rr)*(x(1)-rrm+rr)-sumv);
    
 
 }
@@ -1009,11 +1249,17 @@ int main(int argc, char *argv[]){
    args.AddOption(&met_file, "-met", "--metric",
                   "Metric file to use.");
    args.AddOption(&horn_init_file, "-hini", "--horn-init",
-                  "inifial horn file to use.");
+                  "initial horn file to use.");
    args.AddOption(&t_develop, "-td", "--t-develop",
                   "Time for development.");
    args.AddOption(&flag_output, "-ot", "--out",
                   "output data.");
+  args.AddOption(&water_st, "-wst", "--water-st",
+                  "initial water pressure.");
+  args.AddOption(&water_ed, "-wed", "--water-ed",
+                  "final water pressure.");
+  args.AddOption(&t_amp_water, "-taw", "--t-amp-water",
+                  "ratio of final time for water pressure to simulation end.");
 
 
    
@@ -1150,6 +1396,14 @@ int main(int argc, char *argv[]){
    Array<int> ess_bdr(fespace.GetMesh()->bdr_attributes.Max());
    ess_bdr = 0;
 
+     /*
+    if(flag_water==1){
+ ess_bdr[4] = 1;    
+   ess_bdr[2] = 1; 
+   ess_bdr[1] = 1; 
+   ess_bdr[3] = 1; 
+   }
+     */
    // 7. Initialize the hyperelastic operator, the GLVis visualization and print
    //    the initial energies.
 
@@ -1204,7 +1458,59 @@ int main(int argc, char *argv[]){
    for (ti = 1; !last_step; ti++){
      
      double dt_real = dt;
-     ode_solver->Step(vx, t, dt_real);
+
+     if(flag_water==1){
+       double wq,wp;
+       
+       if(my_time/(t_amp_water*t_develop)<1.0){
+	 
+	 wp=sin(0.5*PI*(my_time/(t_amp_water*t_develop)));
+	 wp=wp*wp;
+	 wq=1.0-wp;
+       }else{
+	 wp=1.0;
+	 wq=0.0;
+     
+       }
+	 
+       water=wq*water_st+wp*water_ed;
+
+       Vector bbx,bby,bbz;
+       double len_norm;
+       x.GetNodalValues(bbx,1);
+       x.GetNodalValues(bby,2);
+       x.GetNodalValues(bbz,3);
+       
+       for(int i=0;i<nvhalf;i++){
+	 normals[i][0]=bbx[i+nvhalf]-bbx[i];
+	 normals[i][1]=bby[i+nvhalf]- bby[i];
+	 normals[i][2]=bbz[i+nvhalf]- bbz[i];
+         
+	 len_norm=sqrt(normals[i][0]*normals[i][0]+normals[i][1]*normals[i][1]+normals[i][2]*normals[i][2]);
+	 normals[i][0]/=len_norm;
+	 normals[i][1]/=len_norm;
+	 normals[i][2]/=len_norm;
+         
+       }
+       for(int j=0;j<nny+1;j++){
+	 for(int i=0;i<nnx+1;i++){
+	   if((i==0)||(i==nnx)||(j==0)||(j==nny)){
+	     normals[j*(nny+1)+i][0]=0;
+	     normals[j*(nny+1)+i][1]=0;
+	     normals[j*(nny+1)+i][2]=0;
+	   }
+	 }
+       }
+
+
+     calc_areas(x);	           
+     }
+     
+
+	    
+
+	       
+	       ode_solver->Step(vx, t, dt_real);
 
      my_time=t;
      last_step = (t >= t_final - 1e-8*dt);
@@ -1222,7 +1528,8 @@ int main(int argc, char *argv[]){
 	   visualize(vis_v, mesh, &x, &v);
 	     
 	   if (vis_w){  
-	     oper.GetElasticEnergyDensity(x, w);	       oper.GetElasticEnergyDensity(x, wh);
+	     oper.GetElasticEnergyDensity(x, w);
+	     oper.GetElasticEnergyDensity(x, wh);
 	     
 	     visualize(vis_w, mesh, &x, &w);
 	     
@@ -1244,7 +1551,8 @@ int main(int argc, char *argv[]){
 	   oper.GetElasticEnergyDensity(x, w);
 	   
 	   //if(vcount==0)out_mesh(mesh,x,"deformed","mesh",vcount, bufdir);
-	   
+
+	     
 	   if(flag_output>1){
 	      xyz_file.close();
 	      sprintf(filename,"%s/xyz.dat",bufdir);
