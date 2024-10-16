@@ -25,10 +25,11 @@ Visualization of the simulation output requires GLvis-3.4.
 
 
 <Installing MFEM with slight modification>
+
 (i) Get mfem-3.3.2.tgz from https://mfem.org/download/
+
 (ii) Add the following description to the begnning of mfem-3.3.2/mesh/mesh.hpp
 
-/* 
 //START: additional definitions for mesh.hpp 
   #ifndef MY_N_ELEMENTS
   #define MY_N_ELEMENTS 32
@@ -38,12 +39,12 @@ Visualization of the simulation output requires GLvis-3.4.
   extern double metric_xy[(MY_N_ELEMENTS)*(MY_N_ELEMENTS)][5];
   extern double metric_yy[(MY_N_ELEMENTS)*(MY_N_ELEMENTS)][5];
 //END: additional definitions for mesh.hpp
-*/
 
-(iii) replace the definition of void Mesh::GetPointMatrix in mfem-3.3.2/mesh/mesh.cpp
+
+(iii) replace the definition of void Mesh::GetPointMatrix
+      in mfem-3.3.2/mesh/mesh.cpp
       with the following definition 
 
-/* 
 //START: additional descriptions for void Mesh::GetPointMatrix in mesh.cpp 
    double bbx,bby,st,ct;
    double x[4],y[4],x1[4],y1[4],bufx[6],bufy[6],dx[6],dy[6],mx[6],my[6],dis[6],x11[4],y11[4];
@@ -100,7 +101,7 @@ Visualization of the simulation output requires GLvis-3.4.
      pointmat(1,j+4)=y11[j];
    }
 //END: additional descriptions for void Mesh::GetPointMatrix in mesh.cpp
-*/
+
 
 (iv) Compile mfem following mfem-3.3.2/INSTALL
      make serial -j 4
