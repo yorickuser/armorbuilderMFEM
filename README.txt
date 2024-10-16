@@ -7,6 +7,7 @@ Email: hiroshibeetle@gmail.com
 
 
 This directory contains a C++ program file used for producing numerical results (figures 1,2,3,4,5) in a paper titled "Growth regulation bringing modularity to morphogenesis of complex three-dimensional exoskeletons" (see the end of this file for the abstract):
+
 [Main program file]
 armor_builder_mfem01.cpp
 
@@ -35,9 +36,9 @@ Visualization of the simulation output requires GLvis-3.4.
 
 (i) Get mfem-3.3.2.tgz from https://mfem.org/download/
 
-(ii) Replace mfem-3.3.2/mesh/mesh.hpp with mfem-3.3.2/mesh/mesh_modified.hpp and rename it "mesh.hpp"
+(ii) Replace mfem-3.3.2/mesh/mesh.hpp with mesh_modified.hpp (in this directory) and rename it "mesh.hpp"
 
-(iii) Replace mfem-3.3.2/mesh/mesh.cpp with mfem-3.3.2/mesh/mesh_modified.hpp and rename it "mesh.cpp"
+(iii) Replace mfem-3.3.2/mesh/mesh.cpp with mesh_modified.hpp (in this directory) and rename it "mesh.cpp"
 
 (iv) Compile mfem following mfem-3.3.2/INSTALL
      make serial -j 4
