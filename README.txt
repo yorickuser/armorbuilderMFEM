@@ -30,12 +30,12 @@ Application: g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0, mfem-3.3.2, yorickvis-0.
 Execution of the program requires MFEM-3.3.2.
 Visualization of the simulation output requires a visualization tool "yorickvis" written in Yorick language, and rlwrap.
 
-<Local install of yorickvis>
+<Local install of yorickvis (not needed if already installed somewhere)>
 yorickvis can be quickly installed under armorbuilderMFEM/
 by following commands (using git):
 
 cd armorbuilderMFEM/
-git clone https://github.com/yorickuser/yorickvis.git -b 0.11
+git clone https://github.com/yorickuser/yorickvis.git
 cd yorickvis/
 ./install.sh
 cd ../
@@ -60,52 +60,52 @@ yorickvis is uninstalled by removing "~/Yorick" and "armorbuilderMFEM/yorickvis"
 <Compilation of armor_builder_mfem2.cpp>
 
 Compilation for 80 x 80 elements:
- g++ -O3 -I[path to mfem-3.3.2] armor_builder_mfem2.cpp  -L[path to mfem-3.3.2] -lmfem -o a.out
+mfempath=[path to mfem-3.3.2]; g++ -O3 -I $mfempath armor_builder_mfem2.cpp  -L $mfempath -lmfem -o a.out
 
 Compilation for 128 x 128 elements:
-sed "s/define MY_N_ELEMENTS 80/define MY_N_ELEMENTS 128/" armor_builder_mfem2.cpp  > temp.cpp; g++ -O3 -I[path to mfem-3.3.2] temp.cpp  -L[path to mfem-3.3.2] -lmfem -o a.out128
+mfempath=[path to mfem-3.3.2]; sed "s/define MY_N_ELEMENTS 80/define MY_N_ELEMENTS 128/" armor_builder_mfem2.cpp  > temp.cpp; g++ -O3 -I $mfempath  temp.cpp  -L $mfempath -lmfem -o a.out128
 
 
 <Execution of armor_builder_mfem2.cpp>
 
 Fig.1e:
-horntype="base2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="base2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.2g:
-horntype="curve1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="curve1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.2h:
-horntype="curve2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="curve2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.2i:
-horntype="twist6";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="twist6";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.3h:
-horntype="modular5";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="modular5";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.3i:
-horntype="modular3";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="modular3";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.3j:
-horntype="modular1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="modular1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.4g:
-horntype="kuwa11";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="kuwa11";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.4h:
-horntype="kuwa6";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="kuwa6";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.4i:
-horntype="kuwa1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="kuwa1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.5g:
-horntype="two_teeth2";td="100.0";tf="120";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="two_teeth2";td="100.0";tf="120";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.5h:
-horntype="teeth3";td="100.0";tf="120";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="teeth3";td="100.0";tf="120";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 Fig.5i:
-horntype="fins2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="fins2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b ${horntype} 
 
 
 <Visualization>
