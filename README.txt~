@@ -24,25 +24,12 @@ These growth metrics are calculated from Appendix C.1 in the paper.
 
 <Operation environment>
 OS: Utunbu 20.04
-Application: g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0, mfem-3.3.2, yorickvis-0.1, rlwrap-0.43
+Application: g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0, mfem-3.3.2, GLvis-3.4
 
 <Requirement>
 Execution of the program requires MFEM-3.3.2.
-Visualization of the simulation output requires a visualization tool "yorickvis" written in Yorick language, and rlwrap.
+Visualization of the simulation output requires GLvis-3.4.
 
-<Local install of yorickvis>
-yorickvis can be quickly installed under armorbuilderMFEM/
-by following commands (using git):
-
-cd armorbuilderMFEM/
-git clone https://github.com/yorickuser/yorickvis.git -b 0.11
-cd yorickvis/
-./install.sh
-cd ../
-
-Install of yorickvis produces a symbolic link "Yorick" at home directory, by which you can easily run yorickvis by typing "~/Yorick/yorickvis".
-
-yorickvis is uninstalled by removing "~/Yorick" and "armorbuilderMFEM/yorickvis".
 
 
 <Installing MFEM with slight modification>
@@ -56,6 +43,9 @@ yorickvis is uninstalled by removing "~/Yorick" and "armorbuilderMFEM/yorickvis"
 (iv) Compile mfem following mfem-3.3.2/INSTALL
      make serial -j 4
 
+(v) Install and execute GlVis-3.4 (available at https://glvis.org/download/) following the description in "INSTALL".
+
+
 
 <Compilation of armor_builder_mfem2.cpp>
 
@@ -66,59 +56,48 @@ Compilation for 128 x 128 elements:
 sed "s/define MY_N_ELEMENTS 80/define MY_N_ELEMENTS 128/" armor_builder_mfem2.cpp  > temp.cpp; g++ -O3 -I[path to mfem-3.3.2] temp.cpp  -L[path to mfem-3.3.2] -lmfem -o a.out128
 
 
-<Execution of armor_builder_mfem2.cpp>
+<Execution of armor_builder_mfem01.cpp>
+
+As long as GLVis is running, the visualization starts automatically just after the program execution.
 
 Fig.1e:
-horntype="base2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="base2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.2g:
-horntype="curve1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="curve1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.2h:
-horntype="curve2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="curve2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.2i:
-horntype="twist6";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="twist6";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.3h:
-horntype="modular5";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="modular5";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.3i:
-horntype="modular3";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="modular3";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.3j:
-horntype="modular1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="modular1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.4g:
-horntype="kuwa11";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="kuwa11";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.4h:
-horntype="kuwa6";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="kuwa6";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.4i:
-horntype="kuwa1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="kuwa1";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.5g:
-horntype="two_teeth2";td="100.0";tf="120";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="two_teeth2";td="100.0";tf="120";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.5h:
-horntype="teeth3";td="100.0";tf="120";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
+horntype="teeth3";td="100.0";tf="120";./a.out128 -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 Fig.5i:
-horntype="fins2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat -b${horntype} 
-
-
-<Visualization>
-
-State of the ongoing simulation is visualized simultaneously by running yorikvis at another console (in the case of horntype="curve2"):
-
-cd armorbuilderMFEM/
-~/Yorick/yorickvisf curve2/output metric_mfem=1
-
-Pressing the Mouse-Left button at the right-top "Start/End" in the window titled "Yorick 0" starts following the simulation.
-Pressing the Mouse-Right button at the right-top "Start/End" or "Pause/End" ends visualization, entering yorick-prompt.
-Typing "quit" ends yorick, returning to the normal console prompt.
-
+horntype="fins2";td="100.0";tf="120";./a.out -td ${td} -tf ${tf} -met ${horntype}/metric.dat -hini ${horntype}/horn_ini.dat
 
 
 
