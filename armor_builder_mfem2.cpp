@@ -1102,7 +1102,8 @@ int main(int argc, char *argv[]){
    double visc = 0.1;
    double mu = 0.25;
    double K = 5.0;
-   bool visualization = true;
+   //   bool visualization = true;
+      bool visualization = false;
    int vis_steps = 1;
    char filename[100];
 
