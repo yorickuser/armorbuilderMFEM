@@ -56,7 +56,7 @@ yorickvis is uninstalled by removing "~/Yorick" and "armorbuilderMFEM/yorickvis"
 
 (ii) Replace mfem-3.3.2/mesh/mesh.hpp with mesh_modified.hpp (in this directory) and rename it "mesh.hpp"
 
-(iii) Replace mfem-3.3.2/mesh/mesh.cpp with mesh_modified.hpp (in this directory) and rename it "mesh.cpp"
+(iii) Replace mfem-3.3.2/mesh/mesh.cpp with mesh_modified.cpp (in this directory) and rename it "mesh.cpp"
 
 (iv) Compile mfem following mfem-3.3.2/INSTALL
      make serial -j 4
