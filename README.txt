@@ -23,10 +23,10 @@ These growth metrics are calculated from Appendix C.1 in the paper.
 
 <Tested environment>
 OS: Utunbu 20.04
-Application: g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0, mfem-3.3.2, yorickvis-0.2, rlwrap-0.43
+Application: g++ (Ubuntu 9.4.0-1ubuntu1~20.04.2) 9.4.0, mfem-3.3.2, yorickvis-0.12, rlwrap-0.43
 
 OS: MacOS (12.6.9)
-Application: g++ (Apple clang version 13.1.6), XQuartz-2.8.5, mfem-3.3.2, yorickvis-0.2, rlwrap-0.46.1
+Application: g++ (Apple clang version 13.1.6), XQuartz-2.8.5, mfem-3.3.2, yorickvis-0.12, rlwrap-0.46.1
 
 
 <Requirement>
